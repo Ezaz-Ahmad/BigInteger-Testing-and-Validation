@@ -1,0 +1,41 @@
+digraph compareTo_cfg {
+    rankdir=TB;
+    node [shape=box];
+   // Nodes
+// Nodes
+1 [label="Node 1\nif (x.words == null &&\ny.words == null)"];
+2a [label="Node 2a\nif (x.ival < y.ival)"];
+2b [label="Node 2b\nif (x.ival > y.ival)"];
+3 [label="Node 3\nreturn -1\n[Exit]", fillcolor=lightgreen];
+4 [label="Node 4\nreturn 1\n[Exit]", fillcolor=lightgreen];
+5 [label="Node 5\nreturn 0\n[Exit]", fillcolor=lightgreen];
+6 [label="Node 6\nx_negative = x.isNegative()\ny_negative = y.isNegative()"];
+7 [label="Node 7\nif (x_negative != y_negative)"];
+8a [label="Node 8a\nif (x_negative)"];
+9 [label="Node 9\nreturn -1\n[Exit]", fillcolor=lightgreen];
+10 [label="Node 10\nreturn 1\n[Exit]", fillcolor=lightgreen];
+11 [label="Node 11\nx_len = x.words == null ? 1 : x.ival\ny_len = y.words == null ? 1 : y.ival"];
+12 [label="Node 12\nif (x_len != y_len)"];
+13a [label="Node 13a\nif ((x_len > y_len) != x_negative)"];
+14 [label="Node 14\nreturn 1\n[Exit]", fillcolor=lightgreen];
+15 [label="Node 15\nreturn -1\n[Exit]", fillcolor=lightgreen];
+16 [label="Node 16\nreturn MPN.cmp(x.words, y.words, x_len)\n[Exit]", fillcolor=lightgreen];
+
+// Edges
+1 -> 2a [label="x.words == null && y.words == null"];
+1 -> 6 [label="!(x.words == null && y.words == null)"];
+2a -> 3 [label="x.ival < y.ival"];
+2a -> 2b [label="x.ival >= y.ival"];
+2b -> 4 [label="x.ival > y.ival"];
+2b -> 5 [label="x.ival <= y.ival"];
+6 -> 7;
+7 -> 8a [label="x_negative != y_negative"];
+7 -> 11 [label="x_negative == y_negative"];
+8a -> 9 [label="x_negative"];
+8a -> 10 [label="!x_negative"];
+11 -> 12;
+12 -> 13a [label="x_len != y_len"];
+12 -> 16 [label="x_len == y_len"];
+13a -> 14 [label="(x_len > y_len) != x_negative"];
+13a -> 15 [label="!((x_len > y_len) != x_negative)"];
+}
